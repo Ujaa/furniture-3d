@@ -22,7 +22,6 @@ export default function FurnitureItemList({
 
     fetchFurniture();
   }, []);
-  console.log(furnitureList);
 
   if (furnitureList.length === 0)
     return (

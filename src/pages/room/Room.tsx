@@ -52,7 +52,7 @@ export default function Room() {
           {selectedRef && <ContextMenu />}
           <OrbitControls /> <BoxHelper />
           <GlobalPointerMove />
-          {selectedRef && <BoxHelper />}
+          <BoxHelper />
           <PostEffect />
         </Canvas>
       </Suspense>

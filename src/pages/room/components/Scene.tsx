@@ -7,13 +7,19 @@ import { useRef } from "react";
 import * as THREE from "three";
 
 export default function Scene() {
-  const { selectedRef, houseRef, mergedHouse } = useRoomStore();
+  const { selectedRef, houseRef, mergedHouse, mode } = useRoomStore();
   const previousPosition = useRef<{ x: number; y: number; z: number } | null>(
     null
   );
 
   useFrame(() => {
-    if (selectedRef && selectedRef.current && mergedHouse) {
+    if (
+      selectedRef &&
+      selectedRef.current &&
+      mergedHouse &&
+      mode !== "none" &&
+      mode !== "rotate"
+    ) {
       const object = selectedRef.current;
 
       if (!previousPosition.current) {
@@ -50,10 +56,7 @@ export default function Scene() {
         }
       }
 
-      console.log("Valid Ray Count:", validRayCount);
-
       if (collision || validRayCount !== 6) {
-        console.log("moving object와 House 간 충돌 발생!");
         if (previousPosition.current) {
           object.position.set(
             previousPosition.current.x,

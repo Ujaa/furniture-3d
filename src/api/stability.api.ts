@@ -21,7 +21,6 @@ export const generateFurnitureModel = async (
         },
       }
     );
-    console.log(response);
     if (response.status === 200) {
       return new Uint8Array(response.data);
     } else {

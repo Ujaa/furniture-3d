@@ -9,7 +9,7 @@ export default function GlobalPointerMove() {
 
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
-      if (!selectedRef || !selectedRef.current) return;
+      if (!selectedRef || !selectedRef.current || mode === "none") return;
 
       e.stopPropagation();
       const rect = gl.domElement.getBoundingClientRect();
