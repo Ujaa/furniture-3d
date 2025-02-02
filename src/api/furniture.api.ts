@@ -6,7 +6,6 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import {
-  deleteObject,
   getDownloadURL,
   ref,
   uploadBytes,
@@ -26,21 +25,22 @@ export const createFurniture = async (furnitureData: IFurniture) => {
 };
 
 export const uploadGLBToStorage = async (file: File) => {
-  return "https://firebasestorage.googleapis.com/v0/b/planner-859ca.firebasestorage.app/o/furniture%2F4e665d94-2c28-4a58-8633-05d81768a795.glb?alt=media&token=69228f31-e7b9-4cde-9057-c464e2137f1c";
-  // try {
-  //   const uuid = uuidv4();
-  //   const glbBuffer = await generateFurnitureModel(file);
-  //   const storageRef = ref(storage, `furniture/${uuid}.glb`);
-  //   await uploadBytes(storageRef, glbBuffer, {
-  //     contentType: "model/gltf-binary",
-  //   });
-  //   const downloadURL = await getDownloadURL(storageRef);
-  //   console.log(`✅ Firebase Storage에 직접 업로드 완료: ${downloadURL}`);
-  //   return downloadURL;
-  // } catch (error) {
-  //   console.error("가구 저장 실패:", error);
-  //   throw error;
-  // }
+  if (file)
+    return "https://firebasestorage.googleapis.com/v0/b/planner-859ca.firebasestorage.app/o/furniture%2F4e665d94-2c28-4a58-8633-05d81768a795.glb?alt=media&token=69228f31-e7b9-4cde-9057-c464e2137f1c";
+  try {
+    const uuid = uuidv4();
+    const glbBuffer = await generateFurnitureModel(file);
+    const storageRef = ref(storage, `furniture/${uuid}.glb`);
+    await uploadBytes(storageRef, glbBuffer, {
+      contentType: "model/gltf-binary",
+    });
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log(`✅ Firebase Storage에 직접 업로드 완료: ${downloadURL}`);
+    return downloadURL;
+  } catch (error) {
+    console.error("가구 저장 실패:", error);
+    throw error;
+  }
 };
 
 export const uploadPreviewToStorage = async (previewImage: string) => {

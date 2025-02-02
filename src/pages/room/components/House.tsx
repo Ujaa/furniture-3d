@@ -20,25 +20,32 @@ export default function House() {
     const box = new THREE.Box3().setFromObject(scene);
     scene.position.y = -box.min.y;
     console.log(scene.position.y);
-
+    //@ts-expect-error: any 타입이라서 오류날 수도 있음
     const geometries = [];
     scene.traverse((child) => {
+      //@ts-expect-error: isMesh가 없을 수 있음
       if (child.isMesh) {
+        //@ts-expect-error: geometry가 없을 수 있음
         const clonedGeom = child.geometry.clone();
         child.updateMatrixWorld(true);
         clonedGeom.applyMatrix4(child.matrixWorld);
         geometries.push(clonedGeom);
 
-        // 재질의 side를 BackSide로 설정하여 안쪽이 보이도록 조정
+        // 재질의 side를 설정하여 안쪽이 보이도록 조정
+        //@ts-expect-error: material가 없을 수 있음
         if (Array.isArray(child.material)) {
+          //@ts-expect-error: material가 없을 수 있음
           child.material.forEach((mat) => (mat.side = THREE.BackSide));
+          //@ts-expect-error: material가 없을 수 있음
         } else if (child.material) {
+          //@ts-expect-error: material가 없을 수 있음
           child.material.side = THREE.FrontSide;
         }
       }
     });
 
     const mergedGeometry = BufferGeometryUtils.mergeGeometries(
+      //@ts-expect-error: any
       geometries,
       false
     );
