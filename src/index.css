@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4rem;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  @font-face {
+    font-family: "Pretendard Variable";
+    font-weight: 45 920;
+    font-style: normal;
+    font-display: swap;
+    src: url("./woff2/PretendardVariable.woff2") format("woff2-variations");
+  }
+
+  * {
+    font-family: "Pretendard Variable", serif;
+  }
+
+  body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    @apply bg-slate-950;
+  }
+}
+
+@layer utilities {
+  .furniture-container {
+    @apply px-4 py-6 rounded-lg border border-slate-700 bg-slate-100/10 backdrop-blur-sm text-slate-300 w-full;
+  }
+
+  .scrollbar {
+    @apply overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100;
+  }
+
+  .custom-range {
+    -webkit-appearance: none;
+    @apply w-full h-6 border border-slate-700 rounded-md p-1 hover:bg-slate-950 bg-slate-900 outline-none transition-colors duration-300;
+  }
+
+  .custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    @apply w-5 h-5 bg-blue-500 cursor-pointer rounded-md;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .custom-range::-moz-range-thumb {
+    @apply w-5 h-5 bg-blue-500 cursor-pointer rounded-md;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.canvas-container canvas {
+  background-color: transparent !important;
+}
