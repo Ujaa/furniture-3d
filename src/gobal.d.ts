@@ -22,6 +22,14 @@ interface IFurnitureScale {
   depth: number;
 }
 
+interface IAlert {
+  message: string;
+  mainButtonLabel: string;
+  onMainButtonClick: () => void;
+  cancelButtonLabel?: string;
+  cancelButtonClick?: () => void;
+}
+
 type ThreeRefType = React.MutableRefObject<THREE.Mesh<
   THREE.BufferGeometry<THREE.NormalBufferAttributes>,
   THREE.Material | THREE.Material[],

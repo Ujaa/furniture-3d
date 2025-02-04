@@ -24,12 +24,8 @@ export default function Room() {
   return (
     <main className="w-screen h-screen">
       <SidePanel />
-      <AlertDialog
-        message="정말 삭제하시겠습니까?"
-        mainButtonLabel="확인"
-        onMainButtonClick={() => console.log("확인 클릭")}
-        cancelButtonLabel="취소"
-      />
+      <AlertDialog />
+
       <Suspense
         fallback={
           <div className="h-screen w-screen flex items-center justify-center">

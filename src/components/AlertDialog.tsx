@@ -1,25 +1,12 @@
-import { useState } from "react";
 import BaseButton from "./BaseButton";
+import { useAlertStore } from "@/stores/useAlertStore";
 
-interface AlertDialogProps {
-  message: string;
-  mainButtonLabel: string;
-  onMainButtonClick: () => void;
-  cancelButtonLabel?: string;
-}
+export default function AlertDialog() {
+  const { visible, alert, hideAlert } = useAlertStore();
 
-export default function AlertDialog({
-  message,
-  mainButtonLabel,
-  onMainButtonClick,
-  cancelButtonLabel,
-}: AlertDialogProps) {
-  const [visible, setVisible] = useState(true);
-
-  const closeAlert = () => setVisible(false);
   const handleMainButtonClick = () => {
-    if (onMainButtonClick) onMainButtonClick();
-    closeAlert();
+    alert.onMainButtonClick();
+    hideAlert();
   };
 
   if (!visible) return null;
@@ -29,17 +16,20 @@ export default function AlertDialog({
       <div
         className={`p-7 pb-6 bg-slate-950 rounded-xl shadow-lg flex flex-col gap-2 items-center min-w-72`}
       >
-        <p className="text-sm text-slate-50 font-medium">{message}</p>
+        <p className="text-sm text-slate-50 font-medium">{alert.message}</p>
         <div className="mt-4 flex w-full gap-2">
-          {cancelButtonLabel && (
+          {alert.cancelButtonLabel && (
             <button
-              onClick={closeAlert}
+              onClick={() => hideAlert()}
               className="flex-1 font-semibold px-4 py-2 bg-slate-900 text-sm text-slate-400 rounded-lg hover:bg-gray-400 transition"
             >
-              {cancelButtonLabel}
+              {alert.cancelButtonLabel}
             </button>
           )}
-          <BaseButton label={mainButtonLabel} onClick={handleMainButtonClick} />
+          <BaseButton
+            label={alert.mainButtonLabel}
+            onClick={handleMainButtonClick}
+          />
         </div>
       </div>
     </div>
