@@ -5,14 +5,11 @@ import BaseButton from "@/components/BaseButton";
 import ImageUploader from "./ImageUploader";
 import { Suspense } from "react";
 import GLBPreviewLoader from "./GLBPreviewLoader";
-import { useFurnituresStore } from "@/stores/useFurnituresStore";
 
 export default function FurnitureGenerator() {
   const { glbUrl, previewUrl, resetFurniture } = useFurnitureStore();
-  const { addFurniture } = useFurnituresStore();
   const handleFinish = () => {
     resetFurniture();
-    //  addFurniture();
   };
 
   return (
