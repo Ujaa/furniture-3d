@@ -6,6 +6,7 @@ interface FurnituresState {
   editFurniture: (updatedFurniture: IFurniture) => void;
   deleteFurniture: (id: string) => void;
   resetFurnitures: () => void;
+  initFurnitures: (furnitures: IFurniture[]) => void;
 }
 
 export const useFurnituresStore = create<FurnituresState>((set) => ({
@@ -23,4 +24,5 @@ export const useFurnituresStore = create<FurnituresState>((set) => ({
       furnitures: state.furnitures.filter((furniture) => furniture.id !== id),
     })),
   resetFurnitures: () => set({ furnitures: [] }),
+  initFurnitures: (furnitures) => set({ furnitures }),
 }));

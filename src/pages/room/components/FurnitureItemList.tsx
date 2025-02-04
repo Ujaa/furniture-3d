@@ -1,8 +1,9 @@
 import FurnitureItem from "./FurnitureItem";
 import { getUserId } from "@/shared/user";
 import { getFurnitureList } from "@/api/furniture.api";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import EmptyView from "@/components/EmptyView";
+import { useFurnituresStore } from "@/stores/useFurnituresStore";
 
 interface FurnitureItemListProps {
   isSample?: boolean;
@@ -11,19 +12,18 @@ interface FurnitureItemListProps {
 export default function FurnitureItemList({
   isSample = false,
 }: FurnitureItemListProps) {
-  const [furnitureList, setFurnitureList] = useState<IFurniture[]>([]);
-
+  const { furnitures, initFurnitures } = useFurnituresStore();
   useEffect(() => {
     const fetchFurniture = async () => {
       const id = isSample ? "sample" : getUserId();
       const data = await getFurnitureList(id);
-      setFurnitureList(data);
+      initFurnitures(data);
     };
 
     fetchFurniture();
-  }, []);
+  }, [isSample, initFurnitures]);
 
-  if (furnitureList.length === 0)
+  if (furnitures.length === 0)
     return (
       <EmptyView>
         <p>가구가 없습니다.</p>
@@ -31,7 +31,7 @@ export default function FurnitureItemList({
     );
   return (
     <ul className="grid grid-cols-1 gap-4">
-      {furnitureList.map((furniture) => (
+      {furnitures.map((furniture) => (
         <FurnitureItem
           key={furniture.id!}
           id={furniture.id!}

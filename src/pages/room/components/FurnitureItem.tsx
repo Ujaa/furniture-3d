@@ -1,6 +1,7 @@
 import { useAlertStore } from "@/stores/useAlertStore";
 import { useRoomStore } from "../../../stores/useRoomStore";
-import { deleteFurniture } from "@/api/furniture.api";
+import { deleteFurniture as deleteFurnitureAPI } from "@/api/furniture.api";
+import { useFurnituresStore } from "@/stores/useFurnituresStore";
 
 interface FurnitureItemProps {
   id: string;
@@ -19,6 +20,7 @@ export default function FurnitureItem({
 }: FurnitureItemProps) {
   const { addMesh } = useRoomStore();
   const { showAlert } = useAlertStore();
+  const { deleteFurniture } = useFurnituresStore();
 
   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -27,7 +29,8 @@ export default function FurnitureItem({
       mainButtonLabel: "확인",
       cancelButtonLabel: "취소",
       onMainButtonClick: async () => {
-        await deleteFurniture(id);
+        deleteFurniture(id);
+        await deleteFurnitureAPI(id);
       },
     });
   };
