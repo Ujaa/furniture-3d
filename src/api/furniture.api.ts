@@ -35,7 +35,7 @@ export const uploadGLBToStorage = async (file: File) => {
       contentType: "model/gltf-binary",
     });
     const downloadURL = await getDownloadURL(storageRef);
-    console.log(`✅ Firebase Storage에 직접 업로드 완료: ${downloadURL}`);
+    console.log(`Firebase Storage에 직접 업로드 완료: ${downloadURL}`);
     return downloadURL;
   } catch (error) {
     console.error("가구 저장 실패:", error);
@@ -52,10 +52,10 @@ export const uploadPreviewToStorage = async (previewImage: string) => {
     });
 
     const previewURL = await getDownloadURL(storageRef);
-    console.log("✅ 프리뷰 이미지 Firebase Storage 업로드 완료:", previewURL);
+    console.log("프리뷰 이미지 Firebase Storage 업로드 완료:", previewURL);
     return previewURL;
   } catch (error) {
-    console.error("❌ 프리뷰 이미지 저장 실패:", error);
+    console.error("프리뷰 이미지 저장 실패:", error);
     throw error;
   }
 };
@@ -92,13 +92,13 @@ export const getFurnitureList = async (userId: string) => {
 export const deleteFurniture = async (furnitureId: string) => {
   try {
     const userId = getUserId();
-    if (!userId) throw new Error("❌ 사용자 ID가 없습니다.");
+    if (!userId) throw new Error("사용자 ID가 없습니다.");
     const furnitureRef = doc(db, "users", userId, "furniture", furnitureId);
     await deleteDoc(furnitureRef);
 
-    console.log(`✅ 가구 ${furnitureId} 삭제 완료 (Firestore + Storage)`);
+    console.log(`가구 ${furnitureId} 삭제 완료 (Firestore + Storage)`);
   } catch (error) {
-    console.error("❌ 가구 삭제 실패:", error);
+    console.error("가구 삭제 실패:", error);
     throw error;
   }
 };

@@ -26,7 +26,7 @@ export const generateFurnitureModel = async (
     } else {
       console.log(response);
       throw new Error(
-        `❌ 오류 발생: ${response.status} - ${response.data.toString()}`
+        `오류 발생: ${response.status} - ${response.data.toString()}`
       );
     }
   } catch (error) {
