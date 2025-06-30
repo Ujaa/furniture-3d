@@ -25,10 +25,11 @@ export default function FurnitureForm() {
 
   return (
     <>
-      <form className="flex flex-wrap gap-2 mb-3">
+      <form className="flex flex-wrap gap-2 mb-4">
+        <label className="text-sm mb-2 font-semibold">가구 정보 입력하기</label>
         <FurnitureScaleInput
           label={"가로"}
-          value={scale.width}
+          value={scale.width} 
           onChange={(event) => {
             const newValue = Math.min(1000, parseInt(event.target.value) || 0);
             setScale({ ...scale, width: newValue });
@@ -55,7 +56,7 @@ export default function FurnitureForm() {
       <div className="flex gap-2 w-full">
         <button
           onClick={() => resetFurniture()}
-          className="flex-2 bg-slate-900 py-2 px-4 rounded-lg text-sm text-slate-400 font-semibold"
+          className="flex-2 bg-slate-900 hover:bg-slate-950 transition-colors duration-300 py-2 px-4 rounded-lg text-sm text-slate-400 font-semibold"
         >
           취소하기
         </button>

@@ -21,7 +21,7 @@ export default function AlertDialog() {
           {alert.cancelButtonLabel && (
             <button
               onClick={() => hideAlert()}
-              className="flex-1 font-semibold px-4 py-2 bg-slate-900 text-sm text-slate-400 rounded-lg hover:bg-gray-400 transition"
+              className="flex-1 font-semibold px-4 py-2 bg-slate-900 text-sm text-slate-400 rounded-lg hover:bg-slate-800 transition"
             >
               {alert.cancelButtonLabel}
             </button>

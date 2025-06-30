@@ -13,7 +13,7 @@ export default function BaseButton({
     <button
       disabled={disabled}
       onClick={onClick}
-      className="w-full flex-1 bg-blue-600 disabled:bg-blue-300 py-3 px-4 rounded-lg text-sm text-blue-50 font-semibold transition-colors duration-500"
+      className="w-full flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 py-3 px-4 rounded-lg text-sm text-blue-50 font-semibold transition-colors duration-500"
     >
       {label}
     </button>
