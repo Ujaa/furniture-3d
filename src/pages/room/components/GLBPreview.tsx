@@ -5,8 +5,10 @@ import { useFurnitureStore } from "@/stores/useFurnitureStore";
 import { createFurniture, uploadPreviewToStorage } from "@/api/furniture.api";
 import Lights from "./Lights";
 import PostEffect from "./PostEffect";
+import { useFurnituresStore } from "@/stores/useFurnituresStore";
 
 const GLBPreview = () => {
+  const {addFurniture, setIsCreating } = useFurnituresStore();
   const { isWallMountable, previewUrl, scale, glbUrl, setPreviewUrl } =
     useFurnitureStore();
   const [hasCaptured, setHasCaptured] = useState(false);
@@ -38,7 +40,9 @@ const GLBPreview = () => {
           scale,
           createdAt: new Date().toISOString(),
         };
-        await createFurniture(data);
+        const newFurniture = await createFurniture(data);
+        addFurniture(newFurniture); 
+        setIsCreating(false);
       };
       create();
     }

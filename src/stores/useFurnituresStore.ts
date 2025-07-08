@@ -2,6 +2,8 @@ import { create } from "zustand";
 
 interface FurnituresState {
   furnitures: IFurniture[];
+  isCreating: boolean,
+  setIsCreating: (isCreating: boolean) => void,
   addFurniture: (furniture: IFurniture) => void;
   editFurniture: (updatedFurniture: IFurniture) => void;
   deleteFurniture: (id: string) => void;
@@ -11,6 +13,8 @@ interface FurnituresState {
 
 export const useFurnituresStore = create<FurnituresState>((set) => ({
   furnitures: [],
+  isCreating: false,
+  setIsCreating: (isCreating) => set({ isCreating }),
   addFurniture: (furniture) =>
     set((state) => ({ furnitures: [...state.furnitures, furniture] })),
   editFurniture: (updatedFurniture) =>

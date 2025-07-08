@@ -24,9 +24,12 @@ export const createFurniture = async (furnitureData: IFurniture) => {
   return furnitureData;
 };
 
+// stability credit이 없기 때문에 이미 생성해둔 모델만 보여준다...
+const SAMPLE_GLB_URL =
+  "https://firebasestorage.googleapis.com/v0/b/planner-859ca.firebasestorage.app/o/furniture%2F1f2155d2-ddd3-48af-8338-11491b07566a.glb?alt=media&token=347a28c1-44f0-4bfe-b976-787907272bbf";
+
 export const uploadGLBToStorage = async (file: File) => {
-  if (file)
-    return "https://firebasestorage.googleapis.com/v0/b/planner-859ca.firebasestorage.app/o/furniture%2F4e665d94-2c28-4a58-8633-05d81768a795.glb?alt=media&token=69228f31-e7b9-4cde-9057-c464e2137f1c";
+  if (file) return SAMPLE_GLB_URL;
   try {
     const uuid = uuidv4();
     const glbBuffer = await generateFurnitureModel(file);

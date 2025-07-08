@@ -2,6 +2,14 @@ import axios from "axios";
 import FormData from "form-data";
 import { STABILITY_AI_API_KEY } from "@/shared/config";
 
+const STABILITY_API_URL = "https://api.stability.ai/v2beta/3d/stable-fast-3d";
+
+/**
+ * Stability AI API를 사용하여 이미지를 3D 모델(GLB)로 변환
+ * @param file - 변환할 가구 이미지 파일
+ * @returns Promise<Uint8Array> - GLB 바이너리 데이터
+ */
+
 export const generateFurnitureModel = async (
   file: File
 ): Promise<Uint8Array> => {
@@ -11,7 +19,7 @@ export const generateFurnitureModel = async (
     };
 
     const response = await axios.postForm(
-      "https://api.stability.ai/v2beta/3d/stable-fast-3d",
+      STABILITY_API_URL,
       axios.toFormData(payload, new FormData()),
       {
         validateStatus: undefined,

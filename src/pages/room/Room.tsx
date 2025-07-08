@@ -12,7 +12,7 @@ import PostEffect from "./components/PostEffect";
 import Lights from "./components/Lights";
 import LoadingBouncingBall from "@/components/LoadingBouncingBall";
 import AlertDialog from "@/components/AlertDialog";
-import BaseButton from "@/components/BaseButton";
+// import BaseButton from "@/components/BaseButton";
 import BoxHelper from "./components/BoxHelper";
 import Scene from "./components/Scene";
 
@@ -52,9 +52,9 @@ export default function Room() {
           <PostEffect />
         </Canvas>
       </Suspense>
-      <div className="fixed right-4 top-4">
+      {/* <div className="fixed right-4 top-4">
         <BaseButton label={"저장"} onClick={() => {}} />
-      </div>
+      </div> */}
 
       <div className="fixed right-4 bottom-4 text-xs text-slate-700">
         Interior Environment mady by{" "}
