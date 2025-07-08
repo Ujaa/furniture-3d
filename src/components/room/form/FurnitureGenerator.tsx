@@ -6,10 +6,17 @@ import ImageUploader from "./ImageUploader";
 import { Suspense } from "react";
 import GLBPreviewLoader from "../preview/GLBPreviewLoader";
 import { useFurnituresStore } from "@/stores/useFurnituresStore";
+import { useShallow } from "zustand/shallow";
 
 export default function FurnitureGenerator() {
-  const { isCreating } = useFurnituresStore();
-  const { glbUrl, previewUrl, resetFurniture } = useFurnitureStore();
+  const isCreating = useFurnituresStore((state) => state.isCreating);
+  const { glbUrl, previewUrl, resetFurniture } = useFurnitureStore(
+    useShallow((state) => ({
+      glbUrl: state.glbUrl,
+      previewUrl: state.previewUrl,
+      resetFurniture: state.resetFurniture,
+    }))
+  );
   const handleFinish = () => resetFurniture();
 
   return (

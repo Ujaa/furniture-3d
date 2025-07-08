@@ -2,9 +2,9 @@ interface IMesh {
   id: string;
   glbUrl: string;
   isWallMountable: booolean;
-  position: Vector3;
-  scale: Vector3;
-  rotation: Vector3;
+  position: Vector3Type;
+  scale: Vector3Type;
+  rotation: Vector3Type;
 }
 
 interface IFurniture {
@@ -42,4 +42,4 @@ type ThreeRefType = React.MutableRefObject<THREE.Mesh<
 
 type modeType = "none" | "rotate" | "moveHorizontal" | "moveVertical";
 
-type Vector3 = [number, number, number];
+type Vector3Type = [number, number, number];

@@ -14,7 +14,8 @@ interface FurnitureState {
   setGlbUrl: (url: string) => void;
 
   size: ISize;
-  setSize: (size: ISize) => void;
+  setSize: ((size: ISize) => void) &
+    ((updater: (prev: ISize) => ISize) => void);
 
   resetFurniture: () => void;
 }
@@ -33,7 +34,10 @@ export const useFurnitureStore = create<FurnitureState>((set) => ({
   setGlbUrl: (url) => set({ glbUrl: url }),
 
   size: { width: 0, height: 0, depth: 0 },
-  setSize: (size) => set({ size }),
+  setSize: (updater) =>
+    set((state) => ({
+      size: typeof updater === "function" ? updater(state.size) : updater,
+    })),
 
   resetFurniture: () =>
     set({

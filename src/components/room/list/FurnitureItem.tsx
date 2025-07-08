@@ -3,6 +3,7 @@ import { useRoomStore } from "@/stores/useRoomStore";
 import { deleteFurniture as deleteFurnitureAPI } from "@/api/furniture/furniture.api";
 import { useFurnituresStore } from "@/stores/useFurnituresStore";
 import { getUserId } from "@/shared/utils/user";
+import toast from "react-hot-toast";
 
 interface FurnitureItemProps {
   id: string;
@@ -31,7 +32,10 @@ export default function FurnitureItem({
       cancelButtonLabel: "취소",
       onMainButtonClick: async () => {
         const userId = getUserId();
-        if (!userId) throw new Error("사용자 ID가 없습니다.");
+        if (!userId) {
+          toast.error("사용자 ID가 없습니다.");
+          return;
+        }
         deleteFurniture(id);
         await deleteFurnitureAPI(userId, id);
       },
