@@ -1,9 +1,11 @@
 import AddPhotoIcon from "@/assets/icons/ic_add_photo.svg?react";
 import { fileToBase64 } from "@/shared/utils/file";
 import { useFurnitureStore } from "@/stores/useFurnitureStore";
+import toast from "react-hot-toast";
 
 export default function ImageUploader() {
-  const { setImageFile, setPreviewUrl } = useFurnitureStore();
+  const setImageFile = useFurnitureStore((state) => state.setImageFile);
+  const setPreviewUrl = useFurnitureStore((state) => state.setPreviewUrl);
 
   const uploadFile = async (file: File) => {
     if (
@@ -14,7 +16,7 @@ export default function ImageUploader() {
       setPreviewUrl(await fileToBase64(file));
       setImageFile(file);
     } else {
-      alert("png, jpg, webp 형식의 이미지만 업로드 가능합니다.");
+      toast.error("png, jpg, webp 형식의 이미지만 업로드 가능합니다.");
     }
   };
 
