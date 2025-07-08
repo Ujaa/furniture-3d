@@ -12,14 +12,15 @@ interface FurnitureItemListProps {
 export default function FurnitureItemList({
   isSample = false,
 }: FurnitureItemListProps) {
-  const { furnitures, initFurnitures } = useFurnituresStore();
+  const furnitures = useFurnituresStore((state) => state.furnitures);
+  const initFurnitures = useFurnituresStore((state) => state.initFurnitures);
+
   useEffect(() => {
     const fetchFurniture = async () => {
       const id = isSample ? "sample" : getUserId();
       const data = await getFurnitureList(id);
       initFurnitures(data);
     };
-
     fetchFurniture();
   }, [isSample, initFurnitures]);
 
@@ -39,6 +40,7 @@ export default function FurnitureItemList({
           previewUrl={furniture.previewUrl!}
           isWallMountable={furniture.isWallMountable}
           glbUrl={furniture.glbUrl!}
+          isSample={isSample}
         />
       ))}
     </ul>

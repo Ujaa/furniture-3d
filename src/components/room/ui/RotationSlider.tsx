@@ -1,28 +1,32 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRoomStore } from "@/stores/useRoomStore";
 import * as THREE from "three";
 
 export default function RotationSlider() {
-  const { selectedRef } = useRoomStore();
+  const selectedRef = useRoomStore((state) => state.selectedRef);
   const [deg, setDeg] = useState(0);
 
   useEffect(() => {
-    if (selectedRef) {
-      setDeg(THREE.MathUtils.radToDeg(selectedRef?.current.rotation.y));
+    if (selectedRef?.current) {
+      const currentDeg = THREE.MathUtils.radToDeg(
+        selectedRef.current.rotation.y
+      );
+      setDeg(currentDeg);
     }
   }, [selectedRef]);
+
+  const stopPropagation = useCallback((event: React.SyntheticEvent) => {
+    event.stopPropagation();
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     stopPropagation(event);
     const newDeg = Number(event.target.value);
     setDeg(newDeg);
-    if (selectedRef && selectedRef.current) {
+    if (selectedRef?.current) {
       selectedRef.current.rotation.y = THREE.MathUtils.degToRad(newDeg);
     }
   };
-
-  const stopPropagation = (event: React.SyntheticEvent) =>
-    event.stopPropagation();
 
   return (
     <div className="flex gap-2 items-center">
