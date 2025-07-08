@@ -4,7 +4,7 @@ import { useThree, useFrame } from "@react-three/fiber";
 import { useRoomStore } from "@/stores/useRoomStore";
 
 export default function BoxHelper() {
-  const { selectedRef } = useRoomStore();
+  const selectedRef = useRoomStore((state) => state.selectedRef);
   const { scene } = useThree();
   const helperRef = useRef<THREE.Box3Helper | null>(null);
 

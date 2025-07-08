@@ -2,7 +2,7 @@ import { useRoomStore } from "@/stores/useRoomStore";
 import FurnitureMesh from "./FurnitureMesh";
 
 export default function SceneMeshes() {
-  const { meshes } = useRoomStore();
+  const meshes = useRoomStore((s) => s.meshes);
 
   return (
     <>

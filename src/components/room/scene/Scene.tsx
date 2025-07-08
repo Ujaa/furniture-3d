@@ -7,7 +7,10 @@ import { useRef } from "react";
 import * as THREE from "three";
 
 export default function Scene() {
-  const { selectedRef, houseRef, mergedHouse, mode } = useRoomStore();
+  const selectedRef = useRoomStore((s) => s.selectedRef);
+  const houseRef = useRoomStore((s) => s.houseRef);
+  const mergedHouse = useRoomStore((s) => s.mergedHouse);
+  const mode = useRoomStore((s) => s.mode);
   const previousPosition = useRef<{ x: number; y: number; z: number } | null>(
     null
   );
