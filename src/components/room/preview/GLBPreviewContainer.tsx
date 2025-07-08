@@ -1,19 +1,24 @@
-import GLBPreview from "../preview/GLBPreview";
-import { useFurnitureStore } from "@/stores/useFurnitureStore";
-import BaseButton from "@/components/common/BaseButton";
 import { Suspense } from "react";
-import GLBPreviewLoader from "../preview/GLBPreviewLoader";
+import GLBPreview from "./GLBPreview";
+import GLBPreviewLoader from "./GLBPreviewLoader";
+import BaseButton from "@/components/common/BaseButton";
+import { useFurnitureStore } from "@/stores/useFurnitureStore";
 import { useFurnituresStore } from "@/stores/useFurnituresStore";
+import { useGLBPreviewLogic } from "../../../hooks/useGLBPreviewLogic";
 
 export default function GLBPreviewContainer() {
   const resetFurniture = useFurnitureStore((state) => state.resetFurniture);
   const isCreating = useFurnituresStore((state) => state.isCreating);
-  const handleFinish = () => resetFurniture();
+  const { glbUrl, onCapture, hasCaptured } = useGLBPreviewLogic();
 
   return (
     <div className="furniture-container flex flex-col gap-3">
       <Suspense fallback={<GLBPreviewLoader />}>
-        <GLBPreview />
+        <GLBPreview
+          glbUrl={glbUrl!}
+          onCapture={onCapture}
+          hasCaptured={hasCaptured}
+        />
       </Suspense>
       <p className="text-xs text-center text-slate-300 font-medium mb-3">
         가구를 360° 돌려 구경해 보세요!
@@ -21,7 +26,7 @@ export default function GLBPreviewContainer() {
       <BaseButton
         label={isCreating ? "가구 생성 중..." : "가구 생성을 완료했어요"}
         disabled={isCreating}
-        onClick={() => handleFinish()}
+        onClick={resetFurniture}
       />
     </div>
   );

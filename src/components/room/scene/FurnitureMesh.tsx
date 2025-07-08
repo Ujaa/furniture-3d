@@ -9,7 +9,10 @@ interface FurnitureMeshProps {
 }
 
 export default function FurnitureMesh({ mesh }: FurnitureMeshProps) {
-  const { setSelectedRef, mode, setMode, resetSelectedRef } = useRoomStore();
+  const setSelectedRef = useRoomStore((s) => s.setSelectedRef);
+  const mode = useRoomStore((s) => s.mode);
+  const setMode = useRoomStore((s) => s.setMode);
+  const resetSelectedRef = useRoomStore((s) => s.resetSelectedRef);
   const { scene } = useGLTF(mesh.glbUrl);
   const meshRef = useRef<ThreeRefType>(null);
 

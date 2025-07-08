@@ -8,11 +8,14 @@ import RotationSlider from "./RotationSlider";
 import IconButton from "./IconButton";
 
 export default function ContextMenu() {
+  const selectedRef = useRoomStore((s) => s.selectedRef);
+  const setMode = useRoomStore((s) => s.setMode);
+  const deleteMesh = useRoomStore((s) => s.deleteMesh);
+  const resetSelectedRef = useRoomStore((s) => s.resetSelectedRef);
   const [show, setShow] = useState(false);
-  const { selectedRef, setMode, deleteMesh, resetSelectedRef } = useRoomStore();
-  const [billboardPosition, setBillboardPosition] = useState<Vector3Type>([
-    0, 0, 0,
-  ]);
+  const [billboardPosition, setBillboardPosition] = useState<
+    [number, number, number]
+  >([0, 0, 0]);
   const [verticalMoveDisabled, setVerticalMoveDisabled] = useState(false);
 
   const handleMoveHorizontal = (

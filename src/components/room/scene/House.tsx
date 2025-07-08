@@ -8,7 +8,8 @@ export default function House() {
   const houseUrl =
     "https://firebasestorage.googleapis.com/v0/b/planner-859ca.firebasestorage.app/o/house.glb?alt=media&token=4f0e8cae-9002-4517-98f8-347a5c5a92cc";
   const houseRef = useRef();
-  const { setHouseRef, setMergedHouse } = useRoomStore();
+  const setHouseRef = useRoomStore((s) => s.setHouseRef);
+  const setMergedHouse = useRoomStore((s) => s.setMergedHouse);
   const { scene } = useGLTF(houseUrl);
 
   useEffect(() => {
@@ -32,13 +33,13 @@ export default function House() {
         geometries.push(clonedGeom);
 
         // 재질의 side를 설정하여 안쪽이 보이도록 조정
-        //@ts-expect-error: material가 없을 수 있음
+        //@ts-expect-error: material이 없을 수 있음
         if (Array.isArray(child.material)) {
-          //@ts-expect-error: material가 없을 수 있음
+          //@ts-expect-error: material이 없을 수 있음
           child.material.forEach((mat) => (mat.side = THREE.BackSide));
-          //@ts-expect-error: material가 없을 수 있음
+          //@ts-expect-error: material이 없을 수 있음
         } else if (child.material) {
-          //@ts-expect-error: material가 없을 수 있음
+          //@ts-expect-error: material이 없을 수 있음
           child.material.side = THREE.FrontSide;
         }
       }

@@ -5,7 +5,8 @@ import { useRoomStore } from "@/stores/useRoomStore";
 
 export default function GlobalPointerMove() {
   const { gl, camera } = useThree();
-  const { selectedRef, mode } = useRoomStore();
+  const selectedRef = useRoomStore((s) => s.selectedRef);
+  const mode = useRoomStore((s) => s.mode);
 
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
