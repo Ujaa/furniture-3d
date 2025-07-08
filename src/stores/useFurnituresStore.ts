@@ -1,9 +1,14 @@
+import { TABS } from "@/shared/constants/constants";
 import { create } from "zustand";
+
+/**
+ * 가구 전체 목록 및 가구 생성 상태를 관리하는 Store.
+ */
 
 interface FurnituresState {
   furnitures: IFurniture[];
-  isCreating: boolean,
-  setIsCreating: (isCreating: boolean) => void,
+  currentTab: TabType;
+  setTab: (tab: TabType) => void;
   addFurniture: (furniture: IFurniture) => void;
   editFurniture: (updatedFurniture: IFurniture) => void;
   deleteFurniture: (id: string) => void;
@@ -13,8 +18,8 @@ interface FurnituresState {
 
 export const useFurnituresStore = create<FurnituresState>((set) => ({
   furnitures: [],
-  isCreating: false,
-  setIsCreating: (isCreating) => set({ isCreating }),
+  currentTab: TABS.MY_FURNITURE,
+  setTab: (tab) => set({ currentTab: tab }),
   addFurniture: (furniture) =>
     set((state) => ({ furnitures: [...state.furnitures, furniture] })),
   editFurniture: (updatedFurniture) =>

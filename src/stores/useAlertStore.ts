@@ -1,5 +1,9 @@
 import { create } from "zustand/react";
 
+/**
+ * 전역 Alert Dialog (모달) 상태를 관리하는 Store.
+ */
+
 interface AlertState {
   visible: boolean;
   alert: IAlert;

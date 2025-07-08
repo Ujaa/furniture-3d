@@ -1,13 +1,17 @@
 import { BufferGeometry } from "three";
 import { create } from "zustand";
 
+/**
+ * 3D Room Scene 내 상태를 관리하는 Store.
+ */
+
 interface RoomState {
-  mode: modeType;
+  mode: ModeType;
   selectedRef: ThreeRefType | null;
   mergedHouse: BufferGeometry | null;
   houseRef: ThreeRefType | null;
   meshes: Record<string, IMesh>;
-  setMode: (mode: modeType) => void;
+  setMode: (mode: ModeType) => void;
   setMergedHouse: (mergedHouse: BufferGeometry) => void;
   addMesh: (mesh: IMesh) => void;
   deleteMesh: (id: string) => void;

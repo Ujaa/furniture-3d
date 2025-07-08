@@ -1,28 +1,32 @@
 import AddPhotoIcon from "@/assets/icons/ic_add_photo.svg?react";
-import { fileToBase64 } from "@/shared/utils/file";
 import { useFurnitureStore } from "@/stores/useFurnitureStore";
 import toast from "react-hot-toast";
+import { useShallow } from "zustand/shallow";
 
 export default function ImageUploader() {
-  const setImageFile = useFurnitureStore((state) => state.setImageFile);
-  const setPreviewUrl = useFurnitureStore((state) => state.setPreviewUrl);
+  const { setImageFile, setPreviewUrl } = useFurnitureStore(
+    useShallow((state) => ({
+      setImageFile: state.setImageFile,
+      setPreviewUrl: state.setPreviewUrl,
+    }))
+  );
 
-  const uploadFile = async (file: File) => {
-    if (
-      file.type === "image/png" ||
-      file.type === "image/jpeg" ||
-      file.type === "image/webp"
-    ) {
-      setPreviewUrl(await fileToBase64(file));
-      setImageFile(file);
-    } else {
+  const isValidImageFile = (file: File) =>
+    ["image/png", "image/jpeg", "image/webp"].includes(file.type);
+
+  const processFile = async (file: File) => {
+    if (!isValidImageFile(file)) {
       toast.error("png, jpg, webp 형식의 이미지만 업로드 가능합니다.");
+      return;
     }
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+    setImageFile(file);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) uploadFile(file);
+    if (file) processFile(file);
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
@@ -30,11 +34,10 @@ export default function ImageUploader() {
   };
 
   const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
-    event.preventDefault();
-    const file = event.dataTransfer.files?.[0];
-    if (file) uploadFile(file);
+    event.preventDefault(); // 기본 동작 방지 (브라우저가 파일 열지 않게 함)
+    const file = event.dataTransfer.files?.[0]; // 드래그한 파일 중 첫 번째 파일 가져오기
+    if (file) processFile(file);
   };
-
   return (
     <>
       <label

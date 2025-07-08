@@ -1,26 +1,26 @@
 import { useFurnitureStore } from "@/stores/useFurnitureStore";
 import BaseButton from "@/components/common/BaseButton";
-import { useFurnituresStore } from "@/stores/useFurnituresStore";
 import { uploadGLBToStorage } from "@/api/furniture/furniture.api";
 import toast from "react-hot-toast";
 import { useShallow } from "zustand/shallow";
 
 export default function CreateButton() {
-  const { imageFile, size, setGlbUrl } = useFurnitureStore(
-    useShallow((state) => ({
-      imageFile: state.imageFile,
-      size: state.size,
-      setGlbUrl: state.setGlbUrl,
-    }))
-  );
-  const { isCreating, setIsCreating } = useFurnituresStore(
-    useShallow((state) => ({
-      isCreating: state.isCreating,
-      setIsCreating: state.setIsCreating,
-    }))
-  );
+  const { imageFile, size, setGlbUrl, isCreating, setIsCreating } =
+    useFurnitureStore(
+      useShallow((state) => ({
+        imageFile: state.imageFile,
+        size: state.size,
+        setGlbUrl: state.setGlbUrl,
+        isCreating: state.isCreating,
+        setIsCreating: state.setIsCreating,
+      }))
+    );
+
   const handleCreateGLB = async () => {
-    if (!imageFile) return;
+    if (!imageFile) {
+      toast.error("이미지 파일이 없습니다.");
+      return;
+    }
     setIsCreating(true);
     try {
       const glbUrl = await uploadGLBToStorage(imageFile);

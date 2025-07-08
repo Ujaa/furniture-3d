@@ -40,6 +40,8 @@ type ThreeRefType = React.MutableRefObject<THREE.Mesh<
   THREE.Object3DEventMap
 > | null>;
 
-type modeType = "none" | "rotate" | "moveHorizontal" | "moveVertical";
+type ModeType = "none" | "rotate" | "moveHorizontal" | "moveVertical";
 
 type Vector3Type = [number, number, number];
+
+type TabType = (typeof TABS)[keyof typeof TABS];

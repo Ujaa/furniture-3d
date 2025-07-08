@@ -16,11 +16,12 @@ function App() {
     <>
       <RouterProvider router={router} />
       <Toaster
-        position="top-right"
+        position="bottom-center"
+        containerClassName="text-sm tracking-tight"
         toastOptions={{
           duration: 3000,
           style: {
-            background: "#363636",
+            background: "#1e293b",
             color: "#fff",
           },
           success: {

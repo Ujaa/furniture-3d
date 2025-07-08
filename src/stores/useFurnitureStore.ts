@@ -1,5 +1,9 @@
 import { create } from "zustand";
 
+/**
+ * 현재 생성/편집 중인 단일 가구 상태를 관리하는 Store.
+ */
+
 interface FurnitureState {
   imageFile: File | null;
   setImageFile: (file: File) => void;
@@ -17,15 +21,25 @@ interface FurnitureState {
   setSize: ((size: ISize) => void) &
     ((updater: (prev: ISize) => ISize) => void);
 
+  isCreating: boolean;
+  setIsCreating: (isCreating: boolean) => void;
+
   resetFurniture: () => void;
 }
 
-export const useFurnitureStore = create<FurnitureState>((set) => ({
+export const useFurnitureStore = create<FurnitureState>((set, get) => ({
   imageFile: null,
   setImageFile: (file) => set({ imageFile: file }),
 
   previewUrl: null,
-  setPreviewUrl: (url) => set({ previewUrl: url }),
+  setPreviewUrl: (url) => {
+    // 기존 URL이 있으면 해제
+    const prev = get().previewUrl;
+    if (prev && prev.startsWith("blob:")) {
+      URL.revokeObjectURL(prev);
+    }
+    set({ previewUrl: url });
+  },
 
   isWallMountable: false,
   setIsWallMountable: (value) => set({ isWallMountable: value }),
@@ -38,6 +52,9 @@ export const useFurnitureStore = create<FurnitureState>((set) => ({
     set((state) => ({
       size: typeof updater === "function" ? updater(state.size) : updater,
     })),
+
+  isCreating: false,
+  setIsCreating: (isCreating) => set({ isCreating }),
 
   resetFurniture: () =>
     set({

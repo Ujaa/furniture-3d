@@ -32,9 +32,9 @@ export default function FurnitureItemList({
     );
   return (
     <ul className="grid grid-cols-1 gap-4">
-      {furnitures.map((furniture) => (
+      {furnitures.map((furniture, index) => (
         <FurnitureItem
-          key={furniture.id!}
+          key={furniture.id || `fallback-${index}`}
           id={furniture.id!}
           size={furniture.size}
           previewUrl={furniture.previewUrl!}
