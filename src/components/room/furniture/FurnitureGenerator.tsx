@@ -1,10 +1,10 @@
-import GLBPreview from "./GLBPreview";
+import GLBPreview from "../preview/GLBPreview";
 import FurnitureForm from "./FurnitureForm";
 import { useFurnitureStore } from "@/stores/useFurnitureStore";
-import BaseButton from "@/components/BaseButton";
+import BaseButton from "@/components/common/BaseButton";
 import ImageUploader from "./ImageUploader";
 import { Suspense } from "react";
-import GLBPreviewLoader from "./GLBPreviewLoader";
+import GLBPreviewLoader from "../preview/GLBPreviewLoader";
 import { useFurnituresStore } from "@/stores/useFurnituresStore";
 
 export default function FurnitureGenerator() {
@@ -34,7 +34,7 @@ export default function FurnitureGenerator() {
             가구를 360° 돌려 구경해 보세요!
           </p>
           <BaseButton
-            label={isCreating ? "가구 생성 중...": "가구 생성을 완료했어요"}
+            label={isCreating ? "가구 생성 중..." : "가구 생성을 완료했어요"}
             disabled={isCreating}
             onClick={() => handleFinish()}
           />

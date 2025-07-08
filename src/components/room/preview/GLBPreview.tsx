@@ -2,14 +2,18 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import { useEffect, useState } from "react";
 import { useFurnitureStore } from "@/stores/useFurnitureStore";
-import { createFurniture, uploadPreviewToStorage } from "@/api/furniture.api";
-import Lights from "./Lights";
-import PostEffect from "./PostEffect";
+import {
+  createFurniture,
+  uploadPreviewToStorage,
+} from "@/api/furniture/furniture.api";
+import Lights from "../scene/Lights";
+import PostEffect from "../scene/PostEffect";
 import { useFurnituresStore } from "@/stores/useFurnituresStore";
+import { getUserId } from "@/shared/utils/user";
 
 const GLBPreview = () => {
-  const {addFurniture, setIsCreating } = useFurnituresStore();
-  const { isWallMountable, previewUrl, scale, glbUrl, setPreviewUrl } =
+  const { addFurniture, setIsCreating } = useFurnituresStore();
+  const { isWallMountable, previewUrl, size, glbUrl, setPreviewUrl } =
     useFurnitureStore();
   const [hasCaptured, setHasCaptured] = useState(false);
   const { scene } = useGLTF(glbUrl!);
@@ -37,11 +41,13 @@ const GLBPreview = () => {
           isWallMountable,
           previewUrl: imageUrl,
           glbUrl,
-          scale,
+          size,
           createdAt: new Date().toISOString(),
         };
-        const newFurniture = await createFurniture(data);
-        addFurniture(newFurniture); 
+        const userId = getUserId();
+        if (!userId) return;
+        const newFurniture = await createFurniture(userId, data);
+        addFurniture(newFurniture);
         setIsCreating(false);
       };
       create();

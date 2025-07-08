@@ -1,12 +1,13 @@
 import { useAlertStore } from "@/stores/useAlertStore";
-import { useRoomStore } from "../../../stores/useRoomStore";
-import { deleteFurniture as deleteFurnitureAPI } from "@/api/furniture.api";
+import { useRoomStore } from "@/stores/useRoomStore";
+import { deleteFurniture as deleteFurnitureAPI } from "@/api/furniture/furniture.api";
 import { useFurnituresStore } from "@/stores/useFurnituresStore";
+import { getUserId } from "@/shared/utils/user";
 
 interface FurnitureItemProps {
   id: string;
   previewUrl: string;
-  scale: IFurnitureScale;
+  size: ISize;
   isWallMountable: boolean;
   glbUrl: string;
 }
@@ -14,7 +15,7 @@ interface FurnitureItemProps {
 export default function FurnitureItem({
   id,
   previewUrl,
-  scale,
+  size,
   isWallMountable,
   glbUrl,
 }: FurnitureItemProps) {
@@ -29,8 +30,10 @@ export default function FurnitureItem({
       mainButtonLabel: "확인",
       cancelButtonLabel: "취소",
       onMainButtonClick: async () => {
+        const userId = getUserId();
+        if (!userId) throw new Error("사용자 ID가 없습니다.");
         deleteFurniture(id);
-        await deleteFurnitureAPI(id);
+        await deleteFurnitureAPI(userId, id);
       },
     });
   };
@@ -40,7 +43,7 @@ export default function FurnitureItem({
       id: id,
       glbUrl: glbUrl,
       isWallMountable: isWallMountable,
-      scale: [scale.width, scale.height, scale.depth],
+      scale: [size.width, size.height, size.depth],
       position: [0, 0, 0],
       rotation: [0, 0, 0],
     });
@@ -58,15 +61,15 @@ export default function FurnitureItem({
         <ul className="flex flex-col gap-1.5">
           <li className="font-medium text-slate-300 text-xs flex gap-3">
             <span className="min-w-9">가로</span>
-            <span className="font-semibold">{scale.width}cm</span>
+            <span className="font-semibold">{size.width}cm</span>
           </li>
           <li className="font-medium text-slate-300 text-xs flex gap-3">
             <span className="min-w-9">세로</span>
-            <span className="font-semibold">{scale.depth}cm</span>
+            <span className="font-semibold">{size.depth}cm</span>
           </li>
           <li className="font-medium text-slate-300 text-xs flex gap-3">
             <span className="min-w-9">높이</span>
-            <span className="font-semibold">{scale.height}cm</span>
+            <span className="font-semibold">{size.height}cm</span>
           </li>
           <li className="font-medium text-slate-300 text-xs flex gap-3">
             <span className="min-w-9">벽 배치</span>

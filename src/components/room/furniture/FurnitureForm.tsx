@@ -1,14 +1,14 @@
 import { useFurnitureStore } from "@/stores/useFurnitureStore";
 import FurnitureCheckbox from "./FurnitureCheckbox";
 import FurnitureScaleInput from "./FurnitureScaleInput";
-import BaseButton from "@/components/BaseButton";
-import { uploadGLBToStorage } from "@/api/furniture.api";
+import BaseButton from "@/components/common/BaseButton";
 import { useFurnituresStore } from "@/stores/useFurnituresStore";
+import { uploadGLBToStorage } from "@/api/furniture/furniture.api";
 
 export default function FurnitureForm() {
-  const { imageFile, scale, setScale, setGlbUrl, resetFurniture } =
+  const { imageFile, size, setSize, setGlbUrl, resetFurniture } =
     useFurnitureStore();
-    const { isCreating, setIsCreating } = useFurnituresStore();
+  const { isCreating, setIsCreating } = useFurnituresStore();
 
   const handleCreateGLB = async () => {
     if (!imageFile) return;
@@ -18,36 +18,39 @@ export default function FurnitureForm() {
       setGlbUrl(glbUrl);
     } catch (error) {
       console.error("GLB 업로드 실패:", error);
+      // 에러는 이미 stability.api.ts에서 toast로 표시됨
     } finally {
+      setIsCreating(false);
     }
   };
 
   return (
     <>
       <form className="flex flex-wrap gap-2 mb-4">
-        <h2 className="text-sm mb-2 font-semibold">가구 정보 입력하기</h2><br/>
+        <h2 className="text-sm mb-2 font-semibold">가구 정보 입력하기</h2>
+        <br />
         <FurnitureScaleInput
           label={"가로"}
-          value={scale.width} 
+          value={size.width}
           onChange={(event) => {
             const newValue = Math.min(1000, parseInt(event.target.value) || 0);
-            setScale({ ...scale, width: newValue });
+            setSize({ ...size, width: newValue });
           }}
         />
         <FurnitureScaleInput
           label={"세로"}
-          value={scale.depth}
+          value={size.depth}
           onChange={(event) => {
             const newValue = Math.min(1000, parseInt(event.target.value) || 0);
-            setScale({ ...scale, depth: newValue });
+            setSize({ ...size, depth: newValue });
           }}
         />
         <FurnitureScaleInput
           label={"높이"}
-          value={scale.height}
+          value={size.height}
           onChange={(event) => {
             const newValue = Math.min(1000, parseInt(event.target.value) || 0);
-            setScale({ ...scale, height: newValue });
+            setSize({ ...size, height: newValue });
           }}
         />
         <FurnitureCheckbox />
@@ -61,7 +64,7 @@ export default function FurnitureForm() {
         </button>
         <BaseButton
           disabled={
-            isCreating || !(scale.width > 1 && scale.height > 1 && scale.depth > 1)
+            isCreating || !(size.width > 1 && size.height > 1 && size.depth > 1)
           }
           onClick={handleCreateGLB}
           label={isCreating ? "3D 가구 생성중..." : "3D 가구 생성하기"}

@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import { detectCollision } from "@/shared/collision";
+import { detectCollision } from "@/shared/utils/collision";
 import { useRoomStore } from "@/stores/useRoomStore";
 import House from "./House";
 import SceneMeshes from "./SceneMehses";

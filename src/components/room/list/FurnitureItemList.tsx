@@ -1,8 +1,8 @@
 import FurnitureItem from "./FurnitureItem";
-import { getUserId } from "@/shared/user";
-import { getFurnitureList } from "@/api/furniture.api";
+import { getUserId } from "@/shared/utils/user";
+import { getFurnitureList } from "@/api/furniture/furniture.api";
 import { useEffect } from "react";
-import EmptyView from "@/components/EmptyView";
+import EmptyView from "@/components/common/EmptyView";
 import { useFurnituresStore } from "@/stores/useFurnituresStore";
 
 interface FurnitureItemListProps {
@@ -35,7 +35,7 @@ export default function FurnitureItemList({
         <FurnitureItem
           key={furniture.id!}
           id={furniture.id!}
-          scale={furniture.scale}
+          size={furniture.size}
           previewUrl={furniture.previewUrl!}
           isWallMountable={furniture.isWallMountable}
           glbUrl={furniture.glbUrl!}

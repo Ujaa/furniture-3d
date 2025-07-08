@@ -1,7 +1,7 @@
 import { useState } from "react";
-import FurnitureGenerator from "./FurnitureGenerator";
+import FurnitureGenerator from "../furniture/FurnitureGenerator";
 import SidePanelToggleButton from "./SidePanelToggleButton";
-import FurnitureItemList from "./FurnitureItemList";
+import FurnitureItemList from "../list/FurnitureItemList";
 
 export default function SidePanel() {
   const [isOpen, setIsOpen] = useState(false);

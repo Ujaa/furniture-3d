@@ -2,9 +2,9 @@ interface IMesh {
   id: string;
   glbUrl: string;
   isWallMountable: booolean;
-  position: [number, number, number];
-  scale: [number, number, number];
-  rotation: [number, number, number];
+  position: Vector3;
+  scale: Vector3;
+  rotation: Vector3;
 }
 
 interface IFurniture {
@@ -12,11 +12,11 @@ interface IFurniture {
   isWallMountable: boolean;
   previewUrl: string | null;
   glbUrl: string | null;
-  scale: IFurnitureScale;
+  size: ISize;
   createdAt: string | null;
 }
 
-interface IFurnitureScale {
+interface ISize {
   width: number;
   height: number;
   depth: number;
@@ -30,6 +30,10 @@ interface IAlert {
   cancelButtonClick?: () => void;
 }
 
+interface IErrorHandlerOptions {
+  message: string;
+}
+
 type ThreeRefType = React.MutableRefObject<THREE.Mesh<
   THREE.BufferGeometry<THREE.NormalBufferAttributes>,
   THREE.Material | THREE.Material[],
@@ -37,3 +41,5 @@ type ThreeRefType = React.MutableRefObject<THREE.Mesh<
 > | null>;
 
 type modeType = "none" | "rotate" | "moveHorizontal" | "moveVertical";
+
+type Vector3 = [number, number, number];

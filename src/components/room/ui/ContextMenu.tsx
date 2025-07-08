@@ -5,6 +5,7 @@ import MoveIconVertical from "@/assets/icons/ic_move_vertical.svg?react";
 import { useRoomStore } from "@/stores/useRoomStore";
 import { useEffect, useState } from "react";
 import RotationSlider from "./RotationSlider";
+import IconButton from "./IconButton";
 
 export default function ContextMenu() {
   const [show, setShow] = useState(false);
@@ -87,23 +88,4 @@ export default function ContextMenu() {
       </Html>
     </Billboard>
   ) : null;
-}
-
-interface IIconButton {
-  disabled?: boolean;
-  text: string;
-  Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
-
-function IconButton({ disabled = false, text, Icon, onClick }: IIconButton) {
-  return (
-    <button
-      disabled={disabled}
-      onClick={onClick}
-      className="transition-colors duration-500 disabled:bg-slate-900/90 disabled:text-slate-600 w-14 h-14 rounded-xl hover:bg-slate-950 bg-slate-900/90 border border-slate-700 font-semibold text-slate-200 text-xs flex flex-col items-center justify-center gap-0"
-    >
-      <Icon /> <span>{text}</span>
-    </button>
-  );
 }
