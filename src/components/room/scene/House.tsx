@@ -1,6 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { useEffect, useRef } from "react";
-import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import * as THREE from "three";
 import { useRoomStore } from "@/stores/useRoomStore";
 
