@@ -1,5 +1,5 @@
 import AddPhotoIcon from "@/assets/icons/ic_add_photo.svg?react";
-import { fileToBase64 } from "@/shared/file";
+import { fileToBase64 } from "@/shared/utils/file";
 import { useFurnitureStore } from "@/stores/useFurnitureStore";
 
 export default function ImageUploader() {

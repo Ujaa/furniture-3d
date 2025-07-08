@@ -1,20 +1,18 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import { useRoomStore } from "../../stores/useRoomStore";
-import ContextMenu from "./components/ContextMenu";
-
-import SidePanel from "./components/SidePanel";
+import { useRoomStore } from "@/stores/useRoomStore";
 import * as THREE from "three";
 import { acceleratedRaycast, computeBoundsTree } from "three-mesh-bvh";
-import GlobalPointerMove from "./components/GlobalPointerMove";
-import PostEffect from "./components/PostEffect";
-import Lights from "./components/Lights";
-import LoadingBouncingBall from "@/components/LoadingBouncingBall";
-import AlertDialog from "@/components/AlertDialog";
-import BaseButton from "@/components/BaseButton";
-import BoxHelper from "./components/BoxHelper";
-import Scene from "./components/Scene";
+import LoadingBouncingBall from "@/components/common/LoadingBouncingBall";
+import AlertDialog from "@/components/common/AlertDialog";
+import SidePanel from "@/components/room/ui/SidePanel";
+import Scene from "@/components/room/scene/Scene";
+import Lights from "@/components/room/scene/Lights";
+import ContextMenu from "@/components/room/ui/ContextMenu";
+import BoxHelper from "@/components/room/scene/BoxHelper";
+import GlobalPointerMove from "@/components/room/scene/GlobalPointerMove";
+import PostEffect from "@/components/room/scene/PostEffect";
 
 THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
@@ -25,7 +23,6 @@ export default function Room() {
     <main className="w-screen h-screen">
       <SidePanel />
       <AlertDialog />
-
       <Suspense
         fallback={
           <div className="h-screen w-screen flex items-center justify-center">
@@ -52,11 +49,11 @@ export default function Room() {
           <PostEffect />
         </Canvas>
       </Suspense>
-      <div className="fixed right-4 top-4">
+      {/* <div className="fixed right-4 top-4">
         <BaseButton label={"저장"} onClick={() => {}} />
-      </div>
+      </div> */}
 
-      <div className="fixed right-4 bottom-4 text-sm text-slate-700">
+      <div className="fixed right-4 bottom-4 text-xs text-slate-700">
         Interior Environment mady by{" "}
         <a className="underline" href="https://sketchfab.com/Adelaide_Essex">
           Adelaide Essex

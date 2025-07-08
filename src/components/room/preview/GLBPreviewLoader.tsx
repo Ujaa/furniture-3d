@@ -1,4 +1,4 @@
-import LoadingBouncingBall from "@/components/LoadingBouncingBall";
+import LoadingBouncingBall from "@/components/common/LoadingBouncingBall";
 
 export default function GLBPreviewLoader() {
   return (

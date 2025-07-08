@@ -13,8 +13,8 @@ interface FurnitureState {
   glbUrl: string | null;
   setGlbUrl: (url: string) => void;
 
-  scale: { width: number; height: number; depth: number };
-  setScale: (scale: { width: number; height: number; depth: number }) => void;
+  size: ISize;
+  setSize: (size: ISize) => void;
 
   resetFurniture: () => void;
 }
@@ -32,8 +32,8 @@ export const useFurnitureStore = create<FurnitureState>((set) => ({
   glbUrl: null,
   setGlbUrl: (url) => set({ glbUrl: url }),
 
-  scale: { width: 0, height: 0, depth: 0 },
-  setScale: (scale) => set({ scale }),
+  size: { width: 0, height: 0, depth: 0 },
+  setSize: (size) => set({ size }),
 
   resetFurniture: () =>
     set({
@@ -41,6 +41,6 @@ export const useFurnitureStore = create<FurnitureState>((set) => ({
       previewUrl: null,
       isWallMountable: false,
       glbUrl: null,
-      scale: { width: 0, height: 0, depth: 0 },
+      size: { width: 0, height: 0, depth: 0 },
     }),
 }));
