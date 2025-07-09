@@ -64,6 +64,8 @@ export default function ContextMenu() {
     }
   }, [selectedRef, setVerticalMoveDisabled]);
 
+  if (!selectedRef) return null;
+
   return show ? (
     <Billboard position={billboardPosition}>
       <Html>

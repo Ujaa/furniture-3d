@@ -9,37 +9,24 @@ export default function GlobalPointerMove() {
   const mode = useRoomStore((s) => s.mode);
 
   useEffect(() => {
-    const handlePointerMove = (e: PointerEvent) => {
-      if (!selectedRef || !selectedRef.current || mode === "none") return;
+    const raycaster = new THREE.Raycaster();
+    const intersectionPoint = new THREE.Vector3();
 
+    const handlePointerMove = (e: PointerEvent) => {
+      if (!selectedRef?.current || mode === "none") return;
       e.stopPropagation();
-      const rect = gl.domElement.getBoundingClientRect();
-      const mouse = new THREE.Vector2(
-        ((e.clientX - rect.left) / rect.width) * 2 - 1,
-        -((e.clientY - rect.top) / rect.height) * 2 + 1
-      );
-      const raycaster = new THREE.Raycaster();
+
+      const mouse = getNormalizedMouseCoords(e, gl.domElement);
       raycaster.setFromCamera(mouse, camera);
-      const intersectionPoint = new THREE.Vector3();
 
       if (mode === "moveHorizontal") {
-        const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-        raycaster.ray.intersectPlane(plane, intersectionPoint);
-        selectedRef.current.position.set(
-          intersectionPoint.x,
-          selectedRef.current.position.y,
-          intersectionPoint.z
-        );
+        moveHorizontally(raycaster, selectedRef.current, intersectionPoint);
       } else if (mode === "moveVertical") {
-        const plane = new THREE.Plane(
-          new THREE.Vector3(0, 0, 1),
-          selectedRef.current.position.z
-        );
-        raycaster.ray.intersectPlane(plane, intersectionPoint);
-        selectedRef.current.position.set(
-          selectedRef.current.position.x,
-          intersectionPoint.y,
-          selectedRef.current.position.z
+        moveVertically(
+          raycaster,
+          camera,
+          selectedRef.current,
+          intersectionPoint
         );
       }
     };
@@ -51,4 +38,49 @@ export default function GlobalPointerMove() {
   }, [gl, camera, selectedRef, mode]);
 
   return null;
+}
+
+function getNormalizedMouseCoords(
+  e: PointerEvent,
+  domElement: HTMLCanvasElement
+) {
+  const rect = domElement.getBoundingClientRect();
+  return new THREE.Vector2(
+    ((e.clientX - rect.left) / rect.width) * 2 - 1,
+    -((e.clientY - rect.top) / rect.height) * 2 + 1
+  );
+}
+
+function moveHorizontally(
+  raycaster: THREE.Raycaster,
+  object: THREE.Object3D,
+  intersectionPoint: THREE.Vector3
+) {
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -object.position.y);
+  raycaster.ray.intersectPlane(plane, intersectionPoint);
+  object.position.set(
+    intersectionPoint.x,
+    object.position.y,
+    intersectionPoint.z
+  );
+}
+
+function moveVertically(
+  raycaster: THREE.Raycaster,
+  camera: THREE.Camera,
+  object: THREE.Object3D,
+  intersectionPoint: THREE.Vector3
+) {
+  const cameraDirection = new THREE.Vector3();
+  camera.getWorldDirection(cameraDirection);
+
+  const plane = new THREE.Plane();
+  plane.setFromNormalAndCoplanarPoint(cameraDirection, object.position);
+
+  raycaster.ray.intersectPlane(plane, intersectionPoint);
+  object.position.set(
+    object.position.x,
+    intersectionPoint.y,
+    object.position.z
+  );
 }

@@ -8,36 +8,46 @@ import ContextMenu from "@/components/room/ui/ContextMenu";
 import BoxHelper from "@/components/room/scene/BoxHelper";
 import GlobalPointerMove from "@/components/room/scene/GlobalPointerMove";
 import PostEffect from "@/components/room/scene/PostEffect";
-import { useRoomStore } from "@/stores/useRoomStore";
+
+const CAMERA_CONFIG = {
+  position: [500, 600, -200] as const,
+  fov: 40,
+  lookAt: [0, 0, 0] as const,
+} as const;
+
+const RENDERER_CONFIG = {
+  antialias: true,
+} as const;
 
 export default function SceneCanvas() {
-  const selectedRef = useRoomStore((state) => state.selectedRef);
   return (
-    <Suspense
-      fallback={
-        <div className="h-screen w-screen flex items-center justify-center">
-          <LoadingBouncingBall />
-        </div>
-      }
-    >
+    <Suspense fallback={<LoadingFallback />}>
       <Canvas
         camera={{
-          position: [500, 600, -200],
-          fov: 40,
+          position: CAMERA_CONFIG.position,
+          fov: CAMERA_CONFIG.fov,
         }}
         onCreated={({ camera }) => {
-          camera.lookAt(0, 0, 0);
+          camera.lookAt(...CAMERA_CONFIG.lookAt);
         }}
-        gl={{ antialias: true }}
+        gl={RENDERER_CONFIG}
       >
         <Scene />
         <Lights />
-        {selectedRef && <ContextMenu />}
-        <OrbitControls /> <BoxHelper />
-        <GlobalPointerMove />
+        <OrbitControls />
+        <ContextMenu />
         <BoxHelper />
+        <GlobalPointerMove />
         <PostEffect />
       </Canvas>
     </Suspense>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="h-screen w-screen flex items-center justify-center">
+      <LoadingBouncingBall />
+    </div>
   );
 }
