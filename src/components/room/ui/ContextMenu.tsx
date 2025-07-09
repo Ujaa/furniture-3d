@@ -12,10 +12,11 @@ export default function ContextMenu() {
   const setMode = useRoomStore((s) => s.setMode);
   const deleteMesh = useRoomStore((s) => s.deleteMesh);
   const resetSelectedRef = useRoomStore((s) => s.resetSelectedRef);
+
   const [show, setShow] = useState(false);
-  const [billboardPosition, setBillboardPosition] = useState<
-    [number, number, number]
-  >([0, 0, 0]);
+  const [billboardPosition, setBillboardPosition] = useState<Vector3Type>([
+    0, 0, 0,
+  ]);
   const [verticalMoveDisabled, setVerticalMoveDisabled] = useState(false);
 
   const handleMoveHorizontal = (
@@ -43,17 +44,17 @@ export default function ContextMenu() {
   };
 
   useEffect(() => {
-    if (selectedRef && selectedRef.current) {
-      const current = selectedRef.current;
-      setBillboardPosition([
-        current.position.x,
-        current.position.y + 12,
-        current.position.z,
-      ]);
-      setShow(true);
-    } else {
+    if (!selectedRef || !selectedRef.current) {
       setShow(false);
+      return;
     }
+    const current = selectedRef.current;
+    setBillboardPosition([
+      current.position.x,
+      current.position.y + 12,
+      current.position.z,
+    ]);
+    setShow(true);
   }, [selectedRef, setBillboardPosition]);
 
   useEffect(() => {

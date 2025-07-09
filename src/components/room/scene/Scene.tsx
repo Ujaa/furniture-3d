@@ -15,65 +15,54 @@ export default function Scene() {
     null
   );
 
+  const directions = [
+    new THREE.Vector3(1, 0, 0), // +X
+    new THREE.Vector3(-1, 0, 0), // -X
+    new THREE.Vector3(0, 1, 0), // +Y
+    new THREE.Vector3(0, -1, 0), // -Y
+    new THREE.Vector3(0, 0, 1), // +Z
+    new THREE.Vector3(0, 0, -1), // -Z
+  ];
+
+  function isOutsideHouse(object: THREE.Object3D, house: THREE.Object3D) {
+    const raycaster = new THREE.Raycaster();
+    const objectCenter = new THREE.Box3()
+      .setFromObject(object)
+      .getCenter(new THREE.Vector3());
+
+    const validRayCount = directions.reduce((count, dir) => {
+      raycaster.set(objectCenter, dir);
+      const intersects = raycaster.intersectObject(house, true);
+      return count + (intersects.length > 0 ? 1 : 0);
+    }, 0);
+
+    return validRayCount !== 6;
+  }
+
   useFrame(() => {
     if (
-      selectedRef &&
-      selectedRef.current &&
-      mergedHouse &&
-      mode !== "none" &&
-      mode !== "rotate"
+      !selectedRef?.current ||
+      !mergedHouse ||
+      !houseRef?.current ||
+      mode === "none" ||
+      mode === "rotate"
     ) {
-      const object = selectedRef.current;
+      return;
+    }
 
-      if (!previousPosition.current) {
-        previousPosition.current = {
-          x: object.position.x,
-          y: object.position.y,
-          z: object.position.z,
-        };
-      }
+    const object = selectedRef.current;
 
-      const collision = detectCollision(selectedRef.current, mergedHouse);
+    if (!previousPosition.current) {
+      previousPosition.current = object.position.clone();
+    }
 
-      const raycaster = new THREE.Raycaster();
-      const directions = [
-        new THREE.Vector3(1, 0, 0), // +X
-        new THREE.Vector3(-1, 0, 0), // -X
-        new THREE.Vector3(0, 1, 0), // +Y
-        new THREE.Vector3(0, -1, 0), // -Y
-        new THREE.Vector3(0, 0, 1), // +Z
-        new THREE.Vector3(0, 0, -1), // -Z
-      ];
+    const hasCollision = detectCollision(object, mergedHouse);
+    const isOutside = isOutsideHouse(object, houseRef.current);
 
-      const objectCenter = new THREE.Vector3();
-      new THREE.Box3().setFromObject(object).getCenter(objectCenter);
-
-      let validRayCount = 0;
-      const houseMesh = houseRef?.current as THREE.Object3D;
-
-      for (const dir of directions) {
-        raycaster.set(objectCenter, dir);
-        const intersects = raycaster.intersectObject(houseMesh, true);
-        if (intersects.length > 0) {
-          validRayCount++;
-        }
-      }
-
-      if (collision || validRayCount !== 6) {
-        if (previousPosition.current) {
-          object.position.set(
-            previousPosition.current.x,
-            previousPosition.current.y,
-            previousPosition.current.z
-          );
-        }
-      } else {
-        previousPosition.current = {
-          x: object.position.x,
-          y: object.position.y,
-          z: object.position.z,
-        };
-      }
+    if (hasCollision || isOutside) {
+      object.position.copy(previousPosition.current);
+    } else {
+      previousPosition.current = object.position.clone();
     }
   });
 

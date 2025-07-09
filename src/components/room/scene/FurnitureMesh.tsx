@@ -16,25 +16,23 @@ export default function FurnitureMesh({ mesh }: FurnitureMeshProps) {
   const { scene } = useGLTF(mesh.glbUrl);
   const meshRef = useRef<ThreeRefType>(null);
 
-  useEffect(() => {
-    if (meshRef.current) {
-      scene.traverse((child) => {
-        if ((child as THREE.Mesh).isMesh) {
-          const mesh = child as THREE.Mesh;
-          if (mesh.geometry.boundingBox === null) {
-            mesh.geometry.computeBoundingBox();
-          }
-          const bbox = mesh.geometry.boundingBox!;
-          const yOffset = bbox.min.y;
-          mesh.geometry.translate(0, -yOffset, 0);
+  function alignMeshToGround(scene: THREE.Group) {
+    scene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        if (mesh.geometry.boundingBox === null) {
+          mesh.geometry.computeBoundingBox();
         }
-      });
-    }
-  }, [scene]);
+        const bbox = mesh.geometry.boundingBox!;
+        const yOffset = bbox.min.y;
+        mesh.geometry.translate(0, -yOffset, 0);
+      }
+    });
+  }
 
-  const onPointerMissed = () => {
-    resetSelectedRef();
-  };
+  useEffect(() => {
+    alignMeshToGround(scene);
+  }, [scene]);
 
   const handleOnClick = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
@@ -45,6 +43,8 @@ export default function FurnitureMesh({ mesh }: FurnitureMeshProps) {
       setSelectedRef(meshRef);
     }
   };
+
+  const onPointerMissed = () => resetSelectedRef();
 
   return (
     <primitive
